@@ -5,9 +5,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TagService {
-  constructor(
-    @InjectModel(Tag.name) private tagModel: Model<TagDocument>,
-  ) {}
+  constructor(@InjectModel(Tag.name) private tagModel: Model<TagDocument>) {}
 
   async create(createTagDto: { name: string }) {
     const existingTag = await this.tagModel
