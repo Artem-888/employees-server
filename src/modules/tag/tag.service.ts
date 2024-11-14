@@ -2,10 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tag, TagDocument } from './tag.schema';
 import { Model } from 'mongoose';
+import { EmployeeService } from '../employee/employee.service';
 
 @Injectable()
 export class TagService {
-  constructor(@InjectModel(Tag.name) private tagModel: Model<TagDocument>) {}
+  constructor(
+    @InjectModel(Tag.name) private tagModel: Model<TagDocument>,
+    private readonly employeeService: EmployeeService,
+  ) {}
 
   async create(createTagDto: { name: string }) {
     const existingTag = await this.tagModel
@@ -31,6 +35,8 @@ export class TagService {
     if (!tag) {
       return this.throwNotFound(id);
     }
+
+    await this.employeeService.removeTagFromEmployees(tag.name);
 
     return this.tagModel.find().exec();
   }

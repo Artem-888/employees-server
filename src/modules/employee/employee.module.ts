@@ -12,5 +12,6 @@ import { EmployeeController } from './employee.controller';
   ],
   providers: [EmployeeService],
   controllers: [EmployeeController],
+  exports: [EmployeeService],
 })
 export class EmployeeModule {}

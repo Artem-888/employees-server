@@ -69,6 +69,12 @@ export class EmployeeService {
     return employee;
   }
 
+  async removeTagFromEmployees(tagName: string) {
+    await this.employeeModel
+      .updateMany({ tags: tagName }, { $pull: { tags: tagName } })
+      .exec();
+  }
+
   private throwNotFound(id: string): never {
     throw new HttpException(
       `Employee with ID ${id} not found.`,
